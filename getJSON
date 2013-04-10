@@ -1,0 +1,9 @@
+#!/usr/bin/env python
+import requests
+import json
+from pprint import pprint
+
+webpage = requests.get("http://www.reddit.com/r/leagueofireland.json")
+pageText = json.loads(webpage.text)
+
+pprint(pageText )

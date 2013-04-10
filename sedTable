@@ -1,0 +1,11 @@
+#!/bin/bash
+table=/home/phil/LOI/table.current
+sed -i 's/Sligo Rovers/Sligo/' $table
+sed -i 's/Shamrock Rovers/Rovers/' $table
+sed -i 's/Cork City/Cork/' $table
+sed -i 's/Derry City/Derry/' $table
+sed -i 's/Bohemians/Bohs/' $table
+sed -i 's/Bray Wanderers/Bray/' $table
+sed -i 's/St. Patrick.s Athletic/St Pats/' $table
+sed -i 's/Drogheda United/Drogheda/' $table
+

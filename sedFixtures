@@ -1,0 +1,11 @@
+#!/bin/bash
+fixtures=/home/phil/LOI/fixtures.current
+sed -i 's/Sligo Rovers/Sligo/' $fixtures
+sed -i 's/Shamrock Rovers/Rovers/' $fixtures
+sed -i 's/Cork City/Cork/' $fixtures
+sed -i 's/Derry City/Derry/' $fixtures
+sed -i 's/Bohemians/Bohs/' $fixtures
+sed -i 's/Bray Wanderers/Bray/' $fixtures
+sed -i 's/St. Patrick.s Athletic/St Pats/' $fixtures
+sed -i 's/Drogheda United/Drogheda/' $fixtures
+

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+TV_unparsed=/home/phil/LOI/TV.unparsed
+
+curl -s "http://www.rte.ie/ten/listings/search?f=airtricity&Go.x=38&Go.y=4&l=tv" \
+                              | sed 's/</\n</g' \
+                              | cut -f2- -d">" \
+                              | grep -A20 "Airtricity League Live"\
+                              | egrep '^[a-zA-Z]'  > $TV_unparsed
+

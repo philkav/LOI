@@ -1,0 +1,4 @@
+#!/bin/bash
+standingsPage=http://www.fifa.com/associations/association=irl/nationalleague/standings.html
+curl -s $standingsPage | tr '/' '\012' | grep -i -A8 -B8 maNlStandingsTeam | awk -F">" '{ print $NF }' | tr '<' ' ' | grep -v ^[a-z] | grep -iv img | grep -v "^ "
+

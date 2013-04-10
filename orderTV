@@ -1,0 +1,26 @@
+#!/usr/bin/python
+
+schedFile = open('/home/phil/LOI/TV.unparsed',"r").read().split('\n')
+ChannelList=[]
+DateList=[]
+TypeList=[]
+MatchList=[]
+lineNo = 0
+for line in schedFile:
+	if lineNo % 4 == 0:
+		TypeList.append(line)
+	elif lineNo % 4 == 1:
+		DateList.append(line)
+	elif lineNo % 4 == 2:
+		ChannelList.append(line)
+	else:
+		MatchList.append(line)
+	lineNo+=1
+
+for i in range(0,len(TypeList)-1):
+	print "__"+DateList[i]+"__"
+	print ""
+	print "|Channel| Showing| Playing | Start Time|"
+	print "|:--|:--|:--|:--|"
+	print "|"+ChannelList[i]+"|"+TypeList[i]+"|"+MatchList[i]+"||"
+	print ""

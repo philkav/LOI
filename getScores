@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+from sys import argv
+import requests
+from bs4 import BeautifulSoup
+league = ""
+def checkRequest(rawString):
+	if "200" not in rawString:
+        	print "Failure getting webpage:",rawData
+        	exit(1)
+
+if len(argv) > 1:
+	country = argv[1]
+else:
+	country = ""
+liveScoreURI = "http://www.livescore.com/soccer/"+country
+rawData = requests.get(liveScoreURI)
+
+#Check to make sure the page was correctly returnedif "200" not in str(rawData):
+checkRequest(str(rawData))
+
+soupedUp = BeautifulSoup(rawData.text)
+
+
+
+tdList = soupedUp.findAll('td')
+for i in range(0,len(tdList)):
+		if "match_details" in str(tdList[i]):
+			try:
+				print league," ".join(tdList[i-1].contents),
+				print " ".join(tdList[i].findChildren('a')[0].contents),
+				print " ".join(tdList[i+1].contents)
+			except:
+				print "Error"
+		if "table" in str(tdList[i]):
+			try:
+				league = " ".join(tdList[i].findChildren('a')[1].contents)
+			except:
+                                print "Error"

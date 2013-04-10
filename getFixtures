@@ -1,0 +1,6 @@
+#!/bin/bash
+
+base=/home/phil/LOI
+fixturesURL=http://www.fifa.com/associations/association=irl/nationalleague/results.html
+curl -s $fixturesURL | sed 's_<_\n<_g' | egrep -e 'ResFix....Team|Date|Time' | awk -F">" '{ print $NF }'| grep -B2 -A2 ":" > $base/fixtures.unparsed
+

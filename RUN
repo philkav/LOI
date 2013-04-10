@@ -1,0 +1,74 @@
+#!/bin/bash
+
+base=/home/phil/LOI
+unParsedTable=$base/table.unParsed
+currentTable=$base/table.current
+prevTable=$base/table.prev
+sedTable=$base/sedTable
+unParsedTV=$base/tv.unparsed
+sedFixtures=$base/sedFixtures
+unParsedFixtures=$base/fixtures.unparsed
+currentFixtures=$base/fixtures.current
+
+##-------------------------
+## Get TV Schedule
+echo "##TV Schedule"
+echo "---"
+echo ""
+$base/getTV
+$base/orderTV
+
+echo ""
+
+##----------------------
+## Get Table
+cp $currentTable $prevTable
+$base/getTable > $unParsedTable
+
+echo "##Premier Table"
+echo "---"
+echo ""
+echo "|Pos|Team|P|W|D|L|GF|GA|+/-|Pts|" > $currentTable
+echo "|--:|----|-|-|-|-|--|--|--:|--:|" >> $currentTable
+echo -en "|" >> $currentTable
+cat $unParsedTable | tr '\012' '|' | sed 's/--/@/g' |tr '@' '\012' >> $currentTable
+echo "" >> $currentTable
+
+##RENAMING
+$sedTable
+
+cat $currentTable
+
+##-------------------------
+## Get Fixtures
+echo ""
+
+echo "##Fixtures"
+echo "---"
+echo ""
+$base/getFixtures
+
+echo "|Date|Time|Home|Away|" > $currentFixtures
+echo -en "|:---|----|----|---|" >> $currentFixtures
+cat $unParsedFixtures | sed 's/$/|/' | sed 's/^|/@/'  | tr '\012' ' ' | tr '@' '\012' | sed 's/^ /|/' >> $currentFixtures
+
+$sedFixtures
+cat $currentFixtures
+echo ""
+
+##-------
+## Verification
+echo "--------------------"
+md5Old=$(md5sum $prevTable    | awk '{ print $1 }')
+md5New=$(md5sum $currentTable | awk '{ print $1 }')
+
+if [ "$md5Old" == "$md5New" ]; then
+        echo "No changes in the table"
+else
+        echo "There are changes in the table"
+fi
+
+
+##-------------
+## Clean Up
+#(cd $base; ls -ltr | grep -v "r-x" | awk '{ print $NF }' | tail -8 | xargs rm -rf)
